@@ -2,8 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Курсы валют</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
@@ -13,93 +12,125 @@
 <body>
 <!-- Блок с основными курсами валют -->
 <div class="warning">
-    <img src="{{ url_for('static', filename='img/Logotip.png') }}" alt="Логотип">
     <h1>Текущие курсы валют Национального банка Республики Беларусь</h1>
 </div>
 
+<!-- Форма обновления курсов -->
 <form id="updateForm" action="/update" method="post">
-    <div class="shadowbox">
-        <ul class="list">
-            {% for currency in data %}
-            {% if currency.Cur_Abbreviation in ['USD', 'EUR', 'RUB'] %}
-            <li class="list-item">{{ currency.Cur_Abbreviation }}: {{ currency.Cur_OfficialRate }}</li>
-            {% endif %}
-            {% endfor %}
-        </ul>
-        <button class="btn-update" type="submit">
-            <i class="fa-solid fa-arrows-spin"></i> Обновить курсы
-        </button>
-    </div>
-</form>
-
-<!-- Блок поиска курса валют -->
-<p>Курс
-    {% if selected_currency %}
-    {{ rate }} Белорусских рублей за {{ scale }} {{ currency_name }}
-    {% endif %}
-</p>
-</div>
-<label>Выберите валюту</label>
-<form id="getRateForm" action="/get_rate" method="post">
-    <select class="select-css" id="currency_byn" name="currency">
-        {% for currency in data %}
-        <option value="{{ currency.Cur_Abbreviation }}" {% if currency.Cur_Abbreviation== selected_currency %}selected{%
-                endif %}>
-            {{ currency.Cur_Abbreviation }} {{ currency.Cur_Name }}
-        </option>
-        {% endfor %}
-    </select>
-    <button class="btn btn-warning" type="submit">Узнать курс</button>
-</form>
-
-<!-- Блок конвертера валют -->
-<aside class="k-sidebar">
-    <div class="mb-15 pl-15 pr-15 pt-15">
-        <div class="h3">
-            Конвертер валют
+    <div class="container-fluid flex-inline">
+        <div class="shadowbox flex-item">
+            <ul class="list">
+                {% for currency in data %}
+                {% if currency.Cur_Abbreviation in ['USD', 'EUR', 'RUB'] %}
+                <li class="list-item">
+                    {{ currency.Cur_Abbreviation }}: {{ currency.Cur_OfficialRate }}
+                </li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="flex-item">
+            <button class="btn-new" type="submit">Обновить</button>
         </div>
     </div>
-    <form id="convertForm" action="/convert" method="post">
-        <label>Введите сумму:</label>
-        <input type="number" name="amount" value="{{ amount }}">
-        <label>Выберите валюту:</label>
-        <select name="from_currency">
-            <option value="BYN" selected>
-                BYN
-            </option>
-            {% for currency in data %}
-            <option value="{{ currency.Cur_Abbreviation }}"}>
-                {{ currency.Cur_Abbreviation }}
-            </option>
-            {% endfor %}
-        </select>
-        <label>Конвертация в:</label>
-        <input type="number" name="converted_1" value="{{ converted_1|round(3) }}" readonly>
-        <select name="to_currency_1">
-            <option value="BYN" selected>
-                BYN
-            </option>
-            {% for currency in data %}
-            <option value="{{ currency.Cur_Abbreviation }}" {% if currency.Cur_Abbreviation== to_currency_1 %}selected{%
-                    endif %}>
-                {{ currency.Cur_Abbreviation }}
-            </option>
-            {% endfor %}
-        </select>
-        <input type="number" name="converted_2" value="{{ converted_2|round(3) }}" readonly>
-        <select name="to_currency_2">
-            <option value="BYN">
-                BYN
-            </option>
-            {% for currency in data %}
-            <option value="{{ currency.Cur_Abbreviation }}" {% if currency.Cur_Abbreviation== to_currency_2 %}selected{%
-                    endif %}>
-                {{ currency.Cur_Abbreviation }}
-            </option>
-            {% endfor %}
-        </select>
-        <button type="submit">Конвертировать</button>
-    </form>
-</aside>
+</form>
+
+<div class="container">
+
+    <!-- Блок поиска курса валют -->
+    <div class="rate-result">
+        <p>
+            {% if selected_currency %}
+            {{ rate }} Белорусских рублей за {{ scale }} {{ currency_name }}
+            {% else %}
+            Для отображения курса необходимой валюты, выберите ее из раскрывающегося списка.
+            {% endif %}
+        </p>
+    </div>
+    <div class="rate-section">
+        <label>Выберите валюту</label>
+        <form id="getRateForm" action="/get_rate" method="post">
+            <div class="form-inline">
+                <select class="select-inline" name="currency"
+                        {% for currency in data %}
+                <option value="{{ currency.Cur_Abbreviation }}"
+                        {% if currency.Cur_Abbreviation== selected_currency %}selected{% endif %}>
+                    {{ currency.Cur_Abbreviation }} {{ currency.Cur_Name }}
+                </option>
+                {% endfor %}
+                </select>
+                <button class="btn-new" type="submit">Выбрать</button>
+            </div>
+        </form>
+    </div>
+
+
+    <!-- Блок конвертера валют -->
+    <div class="converter-section card shadow-sm my-4">
+        <div class="card-header bg-primary text-white">
+            <h2 class="card-title mb-0">Конвертер валют</h2>
+        </div>
+        <div class="card-body">
+            <form id="convertForm" action="/convert" method="post">
+                <!-- Поле ввода суммы -->
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label for="amount" class="form-label">Введите сумму:</label>
+                        <input type="number" class="form-control" id="amount" name="amount" value="{{ amount }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="from_currency" class="form-label">Выберите валюту:</label>
+                        <select class="form-select" id="from_currency" name="from_currency">
+                            <option value="BYN" selected>BYN</option>
+                            {% for currency in data %}
+                            <option value="{{ currency.Cur_Abbreviation }}">
+                                {{ currency.Cur_Abbreviation }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <!-- Группа конвертации -->
+                <div class="mb-3">
+                    <label class="form-label d-block">Для конвертации выберите валюту</label>
+                    <div class="row">
+                        <div class="col-md-6 mb-2">
+                            <div class="input-group">
+                                <input type="number" class="form-control" name="converted_1" value="{{ converted_1 }}"
+                                       readonly>
+                                <select class="form-select" name="to_currency_1">
+                                    <option value="BYN" selected>BYN</option>
+                                    {% for currency in data %}
+                                    <option value="{{ currency.Cur_Abbreviation }}"
+                                            {% if currency.Cur_Abbreviation== to_currency_1 %}selected{% endif %}>
+                                        {{ currency.Cur_Abbreviation }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-2">
+                            <div class="input-group">
+                                <input type="number" class="form-control" name="converted_2" value="{{ converted_2 }}"
+                                       readonly>
+                                <select class="form-select" name="to_currency_2">
+                                    <option value="BYN">BYN</option>
+                                    {% for currency in data %}
+                                    <option value="{{ currency.Cur_Abbreviation }}"
+                                            {% if currency.Cur_Abbreviation== to_currency_2 %}selected{% endif %}>
+                                        {{ currency.Cur_Abbreviation }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Кнопка конвертации -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success">Конвертировать <img src="{{ url_for('static', filename='img/Logotip.png') }}" alt="Логотип" width="40" height="40"></button>
+                </div>
+            </form>
+        </div>
 </body>
 </html>

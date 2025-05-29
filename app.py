@@ -35,10 +35,9 @@ def index():
         rates["BYN"] = [1, 1]
 
         if from_currency in rates:
-            # Вычисление первого результата:
+            # Вычисление результатов конвертации:
             converted_1 = amount / (rates[from_currency][0] / rates[from_currency][1]) \
                           * (rates[to_currency_1][0] / rates[to_currency_1][1])
-            # Исправленная формула для второго результата:
             converted_2 = amount / (rates[from_currency][0] / rates[from_currency][1]) \
                           * (rates[to_currency_2][0] / rates[to_currency_2][1])
 
@@ -95,7 +94,11 @@ def convert():
     converted_2 = None
 
     if request.method == "POST":
-        amount = float(request.form.get("amount", 1))
+        amount_input = request.form.get("amount", 1)
+        if not amount_input:
+            error_message = "Сумма для конвертации не была введена"
+            return render_template("index.html", error=error_message, data=data)
+        amount = float(amount_input)
         from_currency = request.form.get("from_currency")
         to_currency_1 = request.form.get("to_currency_1")
         to_currency_2 = request.form.get("to_currency_2")
@@ -117,4 +120,4 @@ def convert():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)

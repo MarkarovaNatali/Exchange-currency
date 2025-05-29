@@ -1,54 +1,188 @@
+/* Сброс базовых стилей */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Общие стили для страницы */
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #DAF7E6;
+  color: #333;
+  line-height: 1.6;
+  padding: 20px;
+}
+
+/* Основной контейнер */
+.container {
+  max-width: 100% !important;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* Стили для блока с основными курсами валют */
+.warning {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: #fff;
+  text-align: center;
+  padding: 30px 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
+.warning img {
+  max-width: 80px;
+  margin-bottom: 15px;
+}
+.warning h1 {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+/* Flex-контейнер для формы обновления: располагает список и кнопку в одну строку */
+.flex-inline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 15px;
+}
+.flex-item {
+  flex: 1;
+}
+
+/* Блок с карточками (список валют) */
+.shadowbox {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Стили для списка валют */
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  list-style-type: none;
+  padding: 0;
+  margin: 0 auto;
+  max-width: 900px;
+}
+
+/* Стили для отдельного элемента списка */
+.list-item {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 12px 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   cursor: pointer;
-  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.list-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-p {
-  margin-top: 20px;
-  font-size: 40px;
+/* Кнопка обновления */
+.btn-new {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-transform: uppercase;
+}
+.btn-new:hover {
+  background-color: #218838;
 }
 
-form {
-  margin-top: 20px;
+/* Секция поиска курса валют */
+.rate-section {
+  margin-bottom: 15px;
+}
+.rate-section label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  display: inline-block;
+}
+/* Вывод select и кнопку на одной строке */
+.form-inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.select-inline {
+  padding: 8px 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
-ul {list-style: none}
-ul li {
-    color: #06266F;
-    display: block;
-    margin-top: 20px;
-    transition: transform .6s ease;
+/* Блок для вывода текста результата */
+.rate-result {
+  min-height: 50px;
+  padding: 10px 15px;
+  border: 1px dashed #ccc;
+  border-radius: 4px;
+  background-color: #BAE8DF;
+  margin-top: 10px;
+}
+.rate-result p {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #333;
+  text-align: center;
 }
 
-ul li:hover, aside a:hover{
-    color: #3C0470;
-    text-decoration: none;
-    transform: scale(1.05);
-}
-body .select-css {
-    font-size: 16px;
-    font-family: sans-serif;
-    font-weight: 700;
-    color: #444;
-    line-height: 1.3;
-    padding: .6em 1.4em .5em .8em; width: 30%;
-    max-width: 100%;
-    box-sizing: border-box;
-    margin: 0;
-    border: 1px solid #aaa;
-     box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
-    border-radius: .5em;
-     -moz-appearance: none;
-     -webkit-appearance: none;
-     appearance: none;
-     background-color: #fff;
-     background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'), linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%);
-    background-repeat: no-repeat, repeat;
-    background-position: right .7em top 50%, 0 0;
-    background-size: .65em auto, 100%;
+/* Секция конвертера валют */
+.converter-section {
+  margin-top: 30px;
 }
 
-aside {
-    float: right;
-    width: 30%
+/* Дополнительное выравнивание элементов внутри конвертера */
+.converter-section .form-inline {
+  display: flex;
+  align-items: flex-end;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+.converter-section .form-group {
+  margin-bottom: 0;
 }
 
+/* Настройка input-group */
+.input-group .form-control,
+.input-group .form-select {
+  border-radius: 0;
+}
+.input-group .form-control:first-child {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+.input-group .form-select:last-child {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+/* Адаптивные настройки */
+@media (max-width: 576px) {
+  .flex-inline {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .converter-section .form-inline {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
